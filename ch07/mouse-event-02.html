@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mouse Event</title>
+    <link rel="stylesheet" href="../include/style.css">
+
+</head>
+<body>
+<canvas id="canvas" width="800" height="400"></canvas>
+<script src="../include/utils.js"></script>
+<script src="classes/ball.js"></script>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d'),
+                mouse = utils.captureMouse(canvas),
+                log   = document.getElementById('log'),
+                ball = new Ball();
+
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+        ball.draw(context);
+
+        canvas.addEventListener('mousedown', function () {
+            if(utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)){
+                canvas.addEventListener('mouseup', OnMouseUp, false);
+                canvas.addEventListener('mousemove', OnMouseMove, false);
+            }
+        }, false);
+
+        function OnMouseUp() {
+            canvas.removeEventListener('mouseup', OnMouseUp, false);
+            canvas.removeEventListener('mousemove', OnMouseMove, false);
+        }
+
+        function OnMouseMove() {
+            ball.x = mouse.x;
+            ball.y = mouse.y;
+        }
+
+        (function drawFrame(){
+          window.requestAnimationFrame(drawFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            ball.draw(context);
+        }());
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag And Move</title>
+    <link rel="stylesheet" href="../include/style.css">
+
+</head>
+<body>
+<canvas id="canvas" width="800" height="400"></canvas>
+<script src="../include/utils.js"></script>
+<script src="classes/ball.js"></script>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d'),
+                ball    = new Ball(),
+                easing  =  0.03,
+                targetX = canvas.width,
+                targetY = canvas.height;
+
+        (function drawFrame() {
+            window.requestAnimationFrame(drawFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            var vx = (targetX - ball.x) * easing,
+                vy = (targetY - ball.y) * easing;
+            ball.x += vx;
+            ball.y += vy;
+            ball.draw(context);
+        }())
+    }
+</script>
+
+</body>
+</html>
